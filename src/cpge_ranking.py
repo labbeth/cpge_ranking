@@ -426,7 +426,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                             - Normalized Quality Rate: {quality_rate_weight:.2f}
                             - Formule : SSS = (APW * {apw_weight:.2f}) + (Normalized Access Rate * {access_rate_weight:.2f}) + (Normalized Quality Rate * {quality_rate_weight:.2f})
                             
-                            *\\*Le taux de réussite aux concours se base sur les résultats des écoles du haut du panier (X, ENS, Centrales, Mines, Top CCINP); un taux de réussite de 20% ne signifie donc pas que seuls 20% des élèves ont été admis dans une école d'ingénieur, il reflète davantage la qualité de formation et le niveaux des élèves de la CPGE...* 
+                            *\\*Le taux de réussite aux concours se base sur les résultats des écoles du haut du panier (X, ENS, Centrales, Mines, Top CCINP); un taux de réussite de 20% ne signifie donc pas que seuls 20% des élèves ont été admis dans une école, il reflète davantage la qualité de formation et le niveaux des élèves de la CPGE...* 
                         """)
 
         except Exception as e:
