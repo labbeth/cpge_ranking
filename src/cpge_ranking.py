@@ -271,7 +271,7 @@ def plot_universities_graph(file_path, debug_sss_df, univ_type, top_n):
 def main():
     st.title("CPGE Ranking App")
     st.write(f"""
-Découvrez quelles CPGE correspondent le mieux à votre profil en fonction de vos notes, de la sélectivité et des taux de réussite aux concours. 
+Découvrez quelles CPGE correspondent le mieux à votre profil en fonction de vos notes, de la sélectivité à l'accès et des taux de réussite aux concours. 
 Comparez les établissements, estimez vos chances d’admission et optimisez votre stratégie de classement Parcoursup.
 
 *Données exploitées : Parcoursup 2023 et 2024; l'Etudiant 2024.*""")
