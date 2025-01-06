@@ -53,13 +53,42 @@ A live version of the app can be hosted on:
 1. **Clone** this repository:
    ```bash
    git clone https://github.com/your-username/your-cpge-ranking-repo.git
+   ```
 
 2. **Navigate** into the project folder:
   ```bash
-cd your-cpge-ranking-repo
+  cd your-cpge-ranking-repo
+  ```
 
 3. **Install** the required Python packages (adjust filename if needed):
   ```bash
-pip install -r requirements.txt
+  pip install -r requirements.txt
+```
+
+---
+
+## Usage
+
+1. **Run the Streamlit app**:
+   ```bash
+   streamlit run app.py
+   ```
+
+2. Open the URL displayed in your terminal (typically http://localhost:8501) to access the application.
+
+3. Enter your personal data in the notes and weights section, adjust the SSS weights or select a preset button, then calculate rankings to see your results.
+
+---
+
+## Project structure
+
+your-cpge-ranking-repo/
+├── data/
+│   └── joined_file_mp_pc_ecg.csv   # CSV with CPGE data
+├── cpge_ranking.py                          # Main Streamlit application
+├── requirements.txt                # Dependencies list
+├── README.md                       # This README
+
+
 
 
