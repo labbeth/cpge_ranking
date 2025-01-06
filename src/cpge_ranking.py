@@ -311,14 +311,14 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 key=f"weight_{subject}"
             )
 
-    st.subheader("Choisissez le type de CPGE et le nombre cible d'établissements")
+    st.subheader("Choisissez le type et le nombre cible de CPGE")
 
     # Input fields for other parameters
     univ_type = st.selectbox("CPGE Type:", ["mpsi", "pcsi", "ecg"])
     top_n = st.number_input("Top N CPGE:", min_value=1, step=1, value=20)
 
     # Sliders for SSS weights
-    st.header("Ajustez les poids pour le calcul des scores")
+    st.subheader("Ajustez les poids pour le calcul des scores")
 
     st.subheader("Ou choisissez un profil :")
     col1, col2, col3 = st.columns(3)
