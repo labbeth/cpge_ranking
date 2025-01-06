@@ -320,7 +320,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
     # Sliders for SSS weights
     st.subheader("Ajustez les poids pour le calcul des scores")
 
-    st.subheader("Ou choisissez un profil :")
+    st.write("Ou choisissez un profil :")
     col1, col2, col3 = st.columns(3)
 
     with col1:
@@ -359,6 +359,8 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             f"The total weight is {total_weight:.2f}. "
             "Adjust the sliders to ensure the total equals 1.0."
         )
+
+    st.subheader("Filtres")
     # Add checkboxes for filters
     filter_internat = st.checkbox("Internat")
     filter_public = st.checkbox("Public")
