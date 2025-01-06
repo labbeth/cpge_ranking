@@ -40,11 +40,8 @@ This application helps students aiming to join a CPGE program in France to:
 
 ## Demo
 
-A live version of the app can be hosted on:
-- **Streamlit Community Cloud**: [**Demo Link**](https://streamlit.io/cloud) (if available), or
-- **Your own server** under your domain.
-
-*(If no public demo is currently available, feel free to remove or update this section.)*
+A live version of the app is available here:
+- **Streamlit Community Cloud**: [**Demo Link**](https://streamlit.io/cloud) 
 
 ---
 
@@ -82,12 +79,14 @@ A live version of the app can be hosted on:
 
 ## Project structure
 
+```bash
 your-cpge-ranking-repo/
 ├── data/
 │   └── joined_file_mp_pc_ecg.csv   # CSV with CPGE data
 ├── cpge_ranking.py                          # Main Streamlit application
 ├── requirements.txt                # Dependencies list
 ├── README.md                       # This README
+```
 
 
 
