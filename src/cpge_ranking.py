@@ -245,7 +245,7 @@ def plot_universities_graph(file_path, debug_sss_df, univ_type, top_n):
         y="Taux",
         color="Scaled_Color",
         hover_name="Établissement",
-        # title="Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE",
+        title="Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE",
         labels={
             "1-Taux d’accès": "Difficulté d'accès",
             "Taux": "Taux de réussite aux concours",
@@ -263,6 +263,12 @@ def plot_universities_graph(file_path, debug_sss_df, univ_type, top_n):
     # Update marker size and layout for better readability
     fig.update_traces(marker=dict(size=10, opacity=0.8), selector=dict(mode="markers"))
     fig.update_layout(coloraxis_colorbar=dict(title="SSS Gradient"))
+    fig.update_layout(
+    title={
+        'x': 0.5,  # Center the title
+        'xanchor': 'center'  # Ensure it stays centered when resizing
+          }
+    )
 
     # Display the Plotly chart in Streamlit
     st.plotly_chart(fig)
@@ -414,7 +420,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             plot_universities_map(ranked_universities, selected_regions)
 
             # Add a graph to represent the universities
-            st.write("**Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE**")
+            # st.write("**Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE**")
             plot_universities_graph(CSV_FILE_PATH, df_with_sss, univ_type, top_n)
 
             # Add explanations
