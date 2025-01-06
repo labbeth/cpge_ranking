@@ -418,9 +418,9 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             plot_universities_graph(CSV_FILE_PATH, df_with_sss, univ_type, top_n)
 
             # Add explanations
-            st.write("### Explications :")
+            st.write("### Explications")
             st.write(f"""
-                            **SSS (Student-Specific Score):** Combine les éléments suivants pondérés par les poids renseignés par l'utilisateur :
+                            **SSS (Student-Specific Score)** combine les éléments suivants pondérés par les poids renseignés par l'utilisateur :
                             - APW (Acceptance Probability Weight): {apw_weight:.2f}
                             - Normalized Access Rate: {access_rate_weight:.2f}
                             - Normalized Quality Rate: {quality_rate_weight:.2f}
