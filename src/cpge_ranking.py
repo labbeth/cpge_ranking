@@ -285,7 +285,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
         st.session_state.quality_rate_weight = 0.5
 
     # Input fields for notes and weights
-    st.header("Entrez vos notes et coefficients (optionnels)")
+    st.header("Entrez vos notes et choisissez les coefficients")
     st.markdown("**Note:** Entrez `-1` pour les matières non suivies ou que vous souhaitez exclure du calcul.")
     student_notes = {}
     subject_weights = {}
@@ -316,7 +316,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
     top_n = st.number_input("Top N CPGE:", min_value=1, step=1, value=20)
 
     # Sliders for SSS weights
-    st.header("Ajustez les poids pour le calcul du score")
+    st.header("Ajustez les poids pour le calcul des scores")
 
     st.subheader("Ou choisissez un profil :")
     col1, col2, col3 = st.columns(3)
