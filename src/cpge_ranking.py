@@ -285,7 +285,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
         st.session_state.quality_rate_weight = 0.5
 
     # Input fields for notes and weights
-    st.subheader("Entrez vos notes et les coefficients")
+    st.subheader("Entrez vos notes (avec ou sans pondération)")
     st.markdown("**Note:** Entrez `-1` pour les matières non suivies ou que vous souhaitez exclure du calcul.")
     student_notes = {}
     subject_weights = {}
