@@ -326,8 +326,8 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
     with col1:
         if st.button("Prudent"):
             st.session_state.apw_weight = 0.6
-            st.session_state.access_rate_weight = 0.15
-            st.session_state.quality_rate_weight = 0.25
+            st.session_state.access_rate_weight = 0.25
+            st.session_state.quality_rate_weight = 0.15
             st.query_params = {"force": str(uuid.uuid4())}
 
     with col2:
