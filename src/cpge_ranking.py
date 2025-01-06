@@ -393,7 +393,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 filter_internat, filter_public, selected_regions
             )
             # Display the student's average note
-            st.write(f"Moyenne pondérée: {avg_note:.2f}")
+            st.write(f"Moyenne pondérée: **{avg_note:.2f}**")
 
             st.subheader("CPGE sélectionnées")
             columns_to_show = [
