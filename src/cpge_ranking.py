@@ -285,7 +285,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
         st.session_state.quality_rate_weight = 0.5
 
     # Input fields for notes and weights
-    st.header("Entrez vos notes et les coefficients")
+    st.subheader("Entrez vos notes et les coefficients")
     st.markdown("**Note:** Entrez `-1` pour les matières non suivies ou que vous souhaitez exclure du calcul.")
     student_notes = {}
     subject_weights = {}
@@ -311,7 +311,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 key=f"weight_{subject}"
             )
 
-    st.header("Choisissez le type de CPGE et le nombre cible")
+    st.subheader("Choisissez le type de CPGE et le nombre cible d'établissements")
 
     # Input fields for other parameters
     univ_type = st.selectbox("CPGE Type:", ["mpsi", "pcsi", "ecg"])
