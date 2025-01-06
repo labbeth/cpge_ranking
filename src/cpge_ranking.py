@@ -332,8 +332,8 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
 
     with col2:
         if st.button("Equilibré"):
-            st.session_state.apw_weight = 0.35
-            st.session_state.access_rate_weight = 0.15
+            st.session_state.apw_weight = 0.3
+            st.session_state.access_rate_weight = 0.2
             st.session_state.quality_rate_weight = 0.5
             st.query_params = {"force": str(uuid.uuid4())}
 
