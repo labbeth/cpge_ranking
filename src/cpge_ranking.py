@@ -311,6 +311,8 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 key=f"weight_{subject}"
             )
 
+    st.header("Choisissez le type de CPGE et le nombre cible")
+
     # Input fields for other parameters
     univ_type = st.selectbox("CPGE Type:", ["mpsi", "pcsi", "ecg"])
     top_n = st.number_input("Top N CPGE:", min_value=1, step=1, value=20)
