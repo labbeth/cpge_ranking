@@ -382,7 +382,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
 
     # Add region filter
     all_regions = sorted(df["Région de l’établissement"].dropna().unique())
-    selected_regions = st.multiselect("Filtrez par Région:", all_regions)
+    selected_regions = st.multiselect("Régions:", all_regions)
 
     # Run analysis
     if st.button("Calculer les scores") and total_weight == 1.0:
