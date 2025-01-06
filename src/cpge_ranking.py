@@ -414,7 +414,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             plot_universities_map(ranked_universities, selected_regions)
 
             # Add a graph to represent the universities
-            st.subheader("Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE")
+            st.write("**Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE**")
             plot_universities_graph(CSV_FILE_PATH, df_with_sss, univ_type, top_n)
 
             # Add explanations
