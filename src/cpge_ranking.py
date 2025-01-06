@@ -245,7 +245,7 @@ def plot_universities_graph(file_path, debug_sss_df, univ_type, top_n):
         y="Taux",
         color="Scaled_Color",
         hover_name="Établissement",
-        title="Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE",
+        # title="Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE",
         labels={
             "1-Taux d’accès": "Difficulté d'accès",
             "Taux": "Taux de réussite aux concours",
@@ -414,7 +414,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             plot_universities_map(ranked_universities, selected_regions)
 
             # Add a graph to represent the universities
-            # st.subheader("University Rankings Visualization")
+            st.subheader("Positionnement de la sélection (en rouge) au sein de l'ensemble des CPGE")
             plot_universities_graph(CSV_FILE_PATH, df_with_sss, univ_type, top_n)
 
             # Add explanations
