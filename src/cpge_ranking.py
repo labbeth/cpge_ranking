@@ -344,7 +344,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             st.session_state.quality_rate_weight = 0.8
             st.query_params = {"force": str(uuid.uuid4())}
 
-    apw_weight = st.slider("Acceptance Probability Weight : Probabilité d'avoir une proposition d'admission selon sa moyenne générale (données 2024)",
+    apw_weight = st.slider("Acceptance Probability Weight : Probabilité d'admission selon sa moyenne générale (données 2024)",
                            min_value=0.0, max_value=1.0, step=0.05, key="apw_weight")
     access_rate_weight = st.slider("Normalized Access Rate Weight : Sélectivité à l'accès (données 2023)",
                                    min_value=0.0, max_value=1.0, step=0.05, key="access_rate_weight")
