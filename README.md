@@ -14,7 +14,6 @@
 5. [Usage](#usage)
 6. [Project Structure](#project-structure)
 7. [Contributing](#contributing)
-8. [License](#license)
 
 ---
 
@@ -80,7 +79,7 @@ A live version of the app is available here:
 ## Project structure
 
 ```bash
-your-cpge-ranking-repo/
+cpge_ranking/
 ├── data/
 │   └── joined_file_mp_pc_ecg.csv   # CSV with CPGE data
 ├── cpge_ranking.py                          # Main Streamlit application
