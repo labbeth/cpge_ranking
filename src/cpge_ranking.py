@@ -263,12 +263,6 @@ def plot_universities_graph(file_path, debug_sss_df, univ_type, top_n):
     # Update marker size and layout for better readability
     fig.update_traces(marker=dict(size=10, opacity=0.8), selector=dict(mode="markers"))
     fig.update_layout(coloraxis_colorbar=dict(title="SSS Gradient"))
-    fig.update_layout(
-    title={
-        'x': 0.5,  # Center the title
-        'xanchor': 'center'  # Ensure it stays centered when resizing
-          }
-    )
 
     # Display the Plotly chart in Streamlit
     st.plotly_chart(fig)
