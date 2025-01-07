@@ -458,14 +458,19 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 "SSS"
             ]
 
-            # Add a toggle button
-            show_full_dataframe = st.checkbox("Afficher le tableau complet")
+            # Initialize the session state for the checkbox
+            if "show_full_dataframe" not in st.session_state:
+                st.session_state.show_full_dataframe = False
 
-            # Display the appropriate dataframe based on the button click
-            if show_full_dataframe:
-                st.dataframe(ranked_universities, hide_index=True)
+            # Toggle display with a button
+            if st.button("Afficher le tableau complet" if not st.session_state.show_full_dataframe else "Afficher le tableau réduit"):
+                st.session_state.show_full_dataframe = not st.session_state.show_full_dataframe
+
+            # Display the dataframe based on the toggle
+            if st.session_state.show_full_dataframe:
+                st.dataframe(ranked_universities, hide_index=True)  # Display the full dataframe
             else:
-                st.dataframe(ranked_universities[columns_to_show], hide_index=True)
+                st.dataframe(ranked_universities[columns_to_show], hide_index=True)  # Display the selected columns
 
             st.write("\\* Probabilité d'admission ajustée")
 
