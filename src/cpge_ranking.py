@@ -458,7 +458,15 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 "SSS"
             ]
 
-            st.dataframe(ranked_universities[columns_to_show], hide_index=True)
+            # Add a toggle button
+            show_full_dataframe = st.button("Afficher le tableau complet")
+
+            # Display the appropriate dataframe based on the button click
+            if show_full_dataframe:
+                st.dataframe(ranked_universities, hide_index=True)
+            else:
+                st.dataframe(ranked_universities[columns_to_show], hide_index=True)
+
             st.write("\\* Probabilité d'admission ajustée")
 
             # st.write("Data for Map Plotting:")
