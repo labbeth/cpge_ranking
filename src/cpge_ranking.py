@@ -37,11 +37,33 @@ ACCEPTANCE_CLASSES = {
 APW_TO_PROB = {
     1: 0.05,  # <5%
     2: 0.15,  # >15%
-    3: 0.33,  # >33%
+    3: 0.35,  # >35%
     4: 0.50,  # >50%
     5: 0.80   # >80%
 }
 
+# Define weight mappings
+student_rank_weights = {
+    "Top-3": 1.2,
+    "Top-5": 1.1,
+    "Top-10": 1.0,
+    "Milieu": 0.8,
+    "Seconde moitié": 0.6
+}
+
+college_level_weights = {
+    "Faible": 0.8,
+    "Moyen": 1.0,
+    "Bon": 1.1,
+    "Excellent": 1.2
+}
+
+class_level_weights = {
+    "Faible": 0.8,
+    "Moyen": 1.0,
+    "Bon": 1.1,
+    "Excellent": 1.2
+}
 
 def extract_coordinates(dataframe, gps_column):
     """
@@ -95,7 +117,7 @@ def get_acceptance_probability(df, average_note):
     return df
 
 
-def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, sss_weights, filter_internat, filter_public, selected_regions):
+def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, sss_weights, filter_internat, filter_public, selected_regions, student_multiplier):
     # Load the university data
     # df = pd.read_csv(csv_file, delimiter=";")
 
@@ -128,9 +150,29 @@ def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, ss
     # df["APW_norm"] = (df["APW"] - 1) / 4.0
     df["Proba d'admission"] = df["APW"].map(APW_TO_PROB)
 
-    # Now APW_prob is in [0..1], similar to Normalized_AR and Normalized_QR
-    df["SSS"] = (
-            df["Proba d'admission"] * sss_weights["apw"] +
+    # Adjust "Proba d'admission" based on the formula
+    def adjust_probability(proba, multiplier, m_min, m_max):
+        # Scaling factors
+        a = (proba + 0.15) / proba
+        b = (proba - 0.15) / proba
+
+        # Calculate f(m)
+        if multiplier >= 1:
+            f_m = 1 + (a - 1) * (multiplier - 1) / (m_max - 1)
+        else:
+            f_m = 1 + (1 - b) * (multiplier - 1) / (1 - m_min)
+
+        # Calculate adjusted probability
+        adjusted_proba = proba * f_m
+
+        # Round and return
+        return round(adjusted_proba, 2)
+
+    df["Proba ajustée"] = df["Proba d'admission"].apply(lambda x: adjust_probability(x, student_multiplier, m_min=0.384, m_max=1.728))
+
+    # Update SSS calculation with the multiplier
+    df["SSS"] = student_multiplier * (
+            df["Proba ajustée"] * sss_weights["apw"] +
             df["Normalized_AR"] * sss_weights["access_rate"] +
             df["Normalized_QR"] * sss_weights["quality_rate"]
     )
@@ -310,6 +352,18 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 value=1.0,  # Default weight as a float
                 key=f"weight_{subject}"
             )
+            
+    st.subheader("Critères complémentaires (optionnels)")
+    # Inputs for student-specific factors
+    student_rank = st.selectbox("Votre rang dans la classe:", list(student_rank_weights.keys()))
+    college_level = st.selectbox("Niveau de votre lycée:", list(college_level_weights.keys()))
+    class_level = st.selectbox("Niveau de votre classe:", list(class_level_weights.keys()))
+
+    student_multiplier = (
+            student_rank_weights[student_rank] *
+            college_level_weights[college_level] *
+            class_level_weights[class_level]
+    )
 
     st.subheader("Choisissez le type et le nombre cible de CPGE")
 
@@ -390,7 +444,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             df_with_sss, ranked_universities, avg_note = rank_universities(
                 df, student_notes, CSV_FILE_PATH, top_n, univ_type, subject_weights,
                 {"apw": apw_weight, "access_rate": access_rate_weight, "quality_rate": quality_rate_weight},
-                filter_internat, filter_public, selected_regions
+                filter_internat, filter_public, selected_regions, student_multiplier
             )
             # Display the student's average note
             st.write(f"Moyenne pondérée: **{avg_note:.2f}**")
@@ -400,6 +454,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 "Établissement",
                 "Commune",
                 "Proba d'admission",
+                "Proba ajustée",
                 "Taux d’accès",
                 "Taux de réussite",  # This is the renamed "Taux"
                 "SSS"
