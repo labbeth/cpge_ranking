@@ -459,7 +459,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             ]
 
             # Add a toggle button
-            show_full_dataframe = st.button("Afficher le tableau complet")
+            show_full_dataframe = st.checkbox("Afficher le tableau complet")
 
             # Display the appropriate dataframe based on the button click
             if show_full_dataframe:
