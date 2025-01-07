@@ -459,7 +459,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             ]
 
             st.dataframe(ranked_universities[columns_to_show], hide_index=True)
-            st.write("* Probabilité d'admission ajustée")
+            st.write("\\* Probabilité d'admission ajustée")
 
             # st.write("Data for Map Plotting:")
             # st.dataframe(df_with_sss[["Établissement", "latitude", "longitude", "SSS"]].head())
