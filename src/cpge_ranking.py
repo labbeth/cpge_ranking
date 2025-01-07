@@ -315,7 +315,7 @@ def main():
 Découvrez quelles CPGE correspondent le mieux à votre profil en fonction de vos **notes**, de la **sélectivité à l'accès** et des **taux de réussite aux concours**. 
 Comparez les établissements, estimez vos chances d’admission et optimisez votre stratégie de classement Parcoursup.
 
-*Données exploitées : Parcoursup 2023 et 2024; l'Etudiant 2024\\**.*""")
+*Données exploitées : Parcoursup 2023 et 2024; l'Etudiant 2024 (1).*""")
 
     # Initialize session_state defaults if not set
     if "apw_weight" not in st.session_state:
@@ -459,6 +459,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             ]
 
             st.dataframe(ranked_universities[columns_to_show], hide_index=True)
+            st.write("* Probabilité d'admission ajustée")
 
             # st.write("Data for Map Plotting:")
             # st.dataframe(df_with_sss[["Établissement", "latitude", "longitude", "SSS"]].head())
@@ -490,7 +491,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                             **Formule SSS :**  
                             SSS = Adjusted Proba × {apw_weight:.2f} + Normalized Access Rate × {access_rate_weight:.2f} + Normalized Quality Rate × {quality_rate_weight:.2f}
 
-                            *\\**Le taux de réussite aux concours se base sur les résultats des écoles du haut du panier (X, ENS, Centrales, Mines, Top CCINP); un taux de réussite de 20% ne signifie donc pas que seuls 20% des élèves ont été admis dans une école, il reflète davantage la qualité de formation et le niveaux des élèves de la CPGE...* 
+                            *(1) Le taux de réussite aux concours se base sur les résultats des écoles du haut du panier (X, ENS, Centrales, Mines, Top CCINP); un taux de réussite de 20% ne signifie donc pas que seuls 20% des élèves ont été admis dans une école, il reflète davantage la qualité de formation et le niveaux des élèves de la CPGE...* 
                         """)
 
         except Exception as e:
