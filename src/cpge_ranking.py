@@ -458,20 +458,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 "SSS"
             ]
 
-            # Initialize the session state for the display mode
-            if "show_full_dataframe" not in st.session_state:
-                st.session_state["show_full_dataframe"] = False
-
-            # Toggle display mode with a button
-            if st.button("Afficher le tableau complet" if not st.session_state["show_full_dataframe"] else "Afficher le tableau réduit"):
-                st.session_state["show_full_dataframe"] = not st.session_state["show_full_dataframe"]
-
-            # Display the dataframe based on the session state
-            if st.session_state["show_full_dataframe"]:
-                st.dataframe(ranked_universities, hide_index=True)  # Display the full dataframe
-            else:
-                st.dataframe(ranked_universities[columns_to_show], hide_index=True)  # Display the selected columns
-
+            st.dataframe(ranked_universities[columns_to_show], hide_index=True)  # Display the selected columns
             st.write("\\* Probabilité d'admission ajustée")
 
             # st.write("Data for Map Plotting:")
