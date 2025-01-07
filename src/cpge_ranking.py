@@ -153,8 +153,8 @@ def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, ss
     # Adjust "Proba d'admission" based on the formula
     def adjust_probability(proba, multiplier, m_min, m_max):
         # Scaling factors
-        a = (proba + 0.15) / proba
-        b = (proba - 0.15) / proba
+        a = (proba + 0.1) / proba
+        b = (proba - 0.1) / proba
 
         # Calculate f(m)
         if multiplier >= 1:
@@ -168,11 +168,11 @@ def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, ss
         # Round and return
         return round(adjusted_proba, 2)
 
-    df["Proba ajustée"] = df["Proba d'admission"].apply(lambda x: adjust_probability(x, student_multiplier, m_min=0.384, m_max=1.728))
+    df["Proba d'admission*"] = df["Proba d'admission"].apply(lambda x: adjust_probability(x, student_multiplier, m_min=0.384, m_max=1.728))
 
     # Update SSS calculation with the multiplier
     df["SSS"] = student_multiplier * (
-            df["Proba ajustée"] * sss_weights["apw"] +
+            df["Proba d'admission*"] * sss_weights["apw"] +
             df["Normalized_AR"] * sss_weights["access_rate"] +
             df["Normalized_QR"] * sss_weights["quality_rate"]
     )
@@ -453,8 +453,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             columns_to_show = [
                 "Établissement",
                 "Commune",
-                "Proba d'admission",
-                "Proba ajustée",
+                "Proba d'admission*",
                 "Taux d’accès",
                 "Taux de réussite",  # This is the renamed "Taux"
                 "SSS"
@@ -479,8 +478,19 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                             - APW (Acceptance Probability Weight): {apw_weight:.2f}
                             - Normalized Access Rate: {access_rate_weight:.2f}
                             - Normalized Quality Rate: {quality_rate_weight:.2f}
-                            - Formule : SSS = (APW * {apw_weight:.2f}) + (Normalized Access Rate * {access_rate_weight:.2f}) + (Normalized Quality Rate * {quality_rate_weight:.2f})
-                            
+                            - **Student Multiplier** (calculé à partir des critères complémentaires) :  
+                              - Rang dans la classe : {student_rank} → Poids : {student_rank_weights[student_rank]:.2f}  
+                              - Niveau du lycée : {college_level} → Poids : {college_level_weights[college_level]:.2f}  
+                              - Niveau de la classe : {class_level} → Poids : {class_level_weights[class_level]:.2f}  
+                              - **Multiplier total** : {student_multiplier:.2f}
+                              
+                            - Les probabilités d'admission sont ajustées proportionnellement à votre profil :  
+                              - Proba ajustée = f(Proba d'admission, Student Multiplier)
+                              - Les augmentations sont limitées à +0.1 et les diminutions à -0.1.
+                              
+                            **Formule SSS :**  
+                            SSS = Adjusted Proba × {apw_weight:.2f} + Normalized Access Rate × {access_rate_weight:.2f} + Normalized Quality Rate × {quality_rate_weight:.2f}
+
                             *\\*Le taux de réussite aux concours se base sur les résultats des écoles du haut du panier (X, ENS, Centrales, Mines, Top CCINP); un taux de réussite de 20% ne signifie donc pas que seuls 20% des élèves ont été admis dans une école, il reflète davantage la qualité de formation et le niveaux des élèves de la CPGE...* 
                         """)
 
