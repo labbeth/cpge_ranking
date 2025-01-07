@@ -45,10 +45,9 @@ APW_TO_PROB = {
 # Define weight mappings
 student_rank_weights = {
     "Top-3": 1.2,
-    "Top-5": 1.1,
-    "Top-10": 1.0,
-    "Milieu": 0.8,
-    "Seconde moitié": 0.6
+    "Top-10": 1.1,
+    "Milieu": 1.0,
+    "Seconde moitié": 0.8
 }
 
 college_level_weights = {
