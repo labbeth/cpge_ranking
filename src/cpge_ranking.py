@@ -561,7 +561,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             plot_universities_graph(CSV_FILE_PATH, df_with_sss, univ_type, top_n)
 
             # Add explanations
-            st.write("### Explications")
+            st.write("### Méthodologie")
             st.write(f"""
                             **SSS (Student-Specific Score)** combine les éléments suivants pondérés par les poids renseignés par l'utilisateur :
                             - APW (Acceptance Probability Weight): {apw_weight:.2f}
