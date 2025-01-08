@@ -4,9 +4,10 @@ import plotly.express as px
 import numpy as np
 import uuid
 import math
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, JsCode
 
 # Predefined CSV file path
-CSV_FILE_PATH = "./data/joined_file_MP_PC_ECG_final.csv"
+CSV_FILE_PATH = "./data/joined_file_MP_PC_ECG_final2.csv"
 
 # Subject names and default notes
 DEFAULT_NOTES = {
@@ -39,14 +40,14 @@ APW_TO_PROB = {
     2: 0.15,  # >15%
     3: 0.35,  # >35%
     4: 0.50,  # >50%
-    5: 0.80   # >80%
+    5: 0.80  # >80%
 }
 
 # Define weight mappings
 student_rank_weights = {
     "Top-3": 1.2,
     "Top-10": 1.1,
-    "Milieu": 1.0,
+    "Milieu de classe": 1.0,
     "Seconde moitié": 0.8
 }
 
@@ -63,6 +64,7 @@ class_level_weights = {
     "Bon": 1.1,
     "Excellent": 1.2
 }
+
 
 def extract_coordinates(dataframe, gps_column):
     """
@@ -95,8 +97,6 @@ def extract_coordinates(dataframe, gps_column):
     return dataframe
 
 
-
-
 def calculate_weighted_average(notes, weights):
     """Calculate the weighted average of the student's notes, excluding subjects with a note of -1."""
     total_weighted_score = sum(note * weights[subject] for subject, note in notes.items() if note != -1)
@@ -116,7 +116,8 @@ def get_acceptance_probability(df, average_note):
     return df
 
 
-def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, sss_weights, filter_internat, filter_public, selected_regions, student_multiplier):
+def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, sss_weights, filter_internat,
+                      filter_public, selected_regions, student_multiplier):
     # Load the university data
     # df = pd.read_csv(csv_file, delimiter=";")
 
@@ -129,7 +130,8 @@ def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, ss
         df = df[df["Région de l’établissement"].isin(selected_regions)]
 
     # Drop rows with missing key data
-    target_columns = ["Taux", "Taux d’accès", "moy_gen_15_value", "moy_gen_16_value", "moy_gen_17_value", "moy_gen_18_value"]
+    target_columns = ["Taux", "Taux d’accès", "moy_gen_15_value", "moy_gen_16_value", "moy_gen_17_value",
+                      "moy_gen_18_value"]
     df = df.dropna(subset=target_columns)
 
     # Convert percentages to numeric
@@ -167,7 +169,8 @@ def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, ss
         # Round and return
         return round(adjusted_proba, 2)
 
-    df["Proba d'admission*"] = df["Proba d'admission"].apply(lambda x: adjust_probability(x, student_multiplier, m_min=0.384, m_max=1.728))
+    df["Proba d'admission*"] = df["Proba d'admission"].apply(
+        lambda x: adjust_probability(x, student_multiplier, m_min=0.384, m_max=1.728))
 
     # Update SSS calculation with the multiplier
     df["SSS"] = student_multiplier * (
@@ -187,12 +190,11 @@ def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, ss
 
     # Rank and select top N
     ranked_df = df.sort_values(by="SSS", ascending=False).head(top_n)
-    ranked_df.rename(columns={"Taux": "Taux de réussite"}, inplace=True)
+    ranked_df.rename(columns={"Taux": "Taux de réussite sur 5 ans"}, inplace=True)
     ranked_df.rename(columns={"Commune de l’établissement": "Commune"}, inplace=True)
 
     # return ranked_df, average_note, debug_sss_df
     return df, ranked_df, average_note
-
 
 
 def plot_universities_map(dataframe, selected_regions):
@@ -227,9 +229,9 @@ def plot_universities_map(dataframe, selected_regions):
         lat="latitude",
         lon="longitude",
         hover_name="Établissement",
-        hover_data=["Commune", "Taux de réussite", "Taux d’accès"],
+        hover_data=["Commune", "Taux de réussite sur 5 ans", "Taux d’accès"],
         color="SSS",  # Color by SSS score
-        size="SSS",   # Size by SSS score
+        size="SSS",  # Size by SSS score
         size_max=10,  # Reduces maximum bubble size
         center={"lat": 46.5, "lon": 2.0},  # Center roughly over France
         zoom=4,  # Set initial zoom level
@@ -294,9 +296,9 @@ def plot_universities_graph(file_path, debug_sss_df, univ_type, top_n):
         },
         color_continuous_scale=[
             (0.0, "lightgray"),  # Light grey for lowest scores (Other)
-            (0.3, "black"),      # Dark grey for higher scores (Other)
-            (0.8, "pink"),       # Light pink for lower scores (Top-N)
-            (1.0, "red")         # Bright red for highest scores (Top-N)
+            (0.3, "black"),  # Dark grey for higher scores (Other)
+            (0.8, "pink"),  # Light pink for lower scores (Top-N)
+            (1.0, "red")  # Bright red for highest scores (Top-N)
         ],
         range_color=[df["Scaled_Color"].min(), df["Scaled_Color"].max()]
     )
@@ -310,6 +312,19 @@ def plot_universities_graph(file_path, debug_sss_df, univ_type, top_n):
 
 
 def main():
+    # Set full-page layout
+    # st.set_page_config(layout="wide")
+
+    # Inject custom CSS for the centered layout width
+    st.html("""
+        <style>
+            .stMainBlockContainer {
+                max-width:59rem;
+            }
+        </style>
+        """
+            )
+
     st.title("CPGE Ranking App")
     st.write(f"""
 Découvrez quelles CPGE correspondent le mieux à votre profil en fonction de vos **notes**, de la **sélectivité à l'accès** et des **taux de réussite aux concours**. 
@@ -351,12 +366,15 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                 value=1.0,  # Default weight as a float
                 key=f"weight_{subject}"
             )
-            
+
     st.subheader("Critères complémentaires (optionnels)")
     # Inputs for student-specific factors
-    student_rank = st.selectbox("Votre rang dans la classe:", list(student_rank_weights.keys()), index=list(student_rank_weights.values()).index(1.0))
-    college_level = st.selectbox("Niveau de votre lycée:", list(college_level_weights.keys()), index=list(college_level_weights.values()).index(1.0))
-    class_level = st.selectbox("Niveau de votre classe:", list(class_level_weights.keys()), index=list(class_level_weights.values()).index(1.0))
+    student_rank = st.selectbox("Votre rang dans la classe:", list(student_rank_weights.keys()),
+                                index=list(student_rank_weights.values()).index(1.0))
+    college_level = st.selectbox("Niveau de votre lycée:", list(college_level_weights.keys()),
+                                 index=list(college_level_weights.values()).index(1.0))
+    class_level = st.selectbox("Niveau de votre classe:", list(class_level_weights.keys()),
+                               index=list(class_level_weights.values()).index(1.0))
 
     student_multiplier = (
             student_rank_weights[student_rank] *
@@ -401,9 +419,9 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                            min_value=0.0, max_value=1.0, step=0.05, key="apw_weight")
     access_rate_weight = st.slider("Normalized Access Rate Weight : Sélectivité à l'accès",
                                    min_value=0.0, max_value=1.0, step=0.05, key="access_rate_weight")
-    quality_rate_weight = st.slider("Normalized Quality Rate Weight : Taux de réussite aux concours (moyenne sur 5 ans)",
-                                    min_value=0.0, max_value=1.0, step=0.05, key="quality_rate_weight")
-
+    quality_rate_weight = st.slider(
+        "Normalized Quality Rate Weight : Taux de réussite aux concours (moyenne sur 5 ans)",
+        min_value=0.0, max_value=1.0, step=0.05, key="quality_rate_weight")
 
     # Ensure the sum of weights equals 1
     total_weight = apw_weight + access_rate_weight + quality_rate_weight
@@ -449,16 +467,87 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
             st.write(f"Moyenne pondérée: **{avg_note:.2f}**")
 
             st.subheader("CPGE sélectionnées")
+            st.write("Etablissements classés par Student-Specific Score (SSS), calculé sur la base des informations renseignées.")
             columns_to_show = [
+                "SSS",
                 "Établissement",
                 "Commune",
                 "Proba d'admission*",
                 "Taux d’accès",
-                "Taux de réussite",  # This is the renamed "Taux"
-                "SSS"
+                "Taux de réussite sur 5 ans",  # This is the renamed "Taux"
+                "Rang 2024"
             ]
 
-            st.dataframe(ranked_universities[columns_to_show], hide_index=True)  # Display the selected columns
+            # Reorder the dataframe to bring selected columns to the front
+            reordered_columns = columns_to_show + [
+                col for col in ranked_universities.columns if col not in columns_to_show
+            ]
+            ranked_universities = ranked_universities[reordered_columns]
+
+            # # Add hyperlinks to the "Établissement" column
+            # def create_hyperlink(row):
+            #     url = row["Lien de la formation sur la plateforme Parcoursup"]
+            #     name = row["Établissement"]
+            #     return f'<a href="{url}" target="_blank">{name}</a>'
+            #
+            # ranked_universities["Établissement"] = ranked_universities.apply(create_hyperlink, axis=1)
+            ranked_universities["Établissement"] = ranked_universities.apply(
+                lambda row: {"name": row["Établissement"],
+                             "url": row["Lien de la formation sur la plateforme Parcoursup"]},
+                axis=1
+            )
+
+            # Configure AgGrid options
+            gb = GridOptionsBuilder.from_dataframe(ranked_universities)
+            gb.configure_pagination(enabled=True, paginationAutoPageSize=False, paginationPageSize=20)  # Enable pagination
+            gb.configure_side_bar()  # Enable side bar for additional options
+            gb.configure_default_column(
+                resizable=False,
+                filterable=True,
+                sortable=True,
+                wrapText=True,
+                suppressMenu=True
+            )  # Allow resizing, filtering, and sorting
+
+            # Explicitly pin only the "Établissement" column
+            gb.configure_column("SSS", pinned="left")
+            # gb.configure_column("Établissement", pinned="left", cellRenderer="html")
+            gb.configure_column(
+                "Établissement", pinned="left",
+                cellRenderer=JsCode("""
+                    class UrlCellRenderer {
+                      init(params) {
+                        this.eGui = document.createElement('a');
+                        this.eGui.innerText = params.value.name;  // Display the name of the establishment
+                        this.eGui.setAttribute('href', params.value.url);  // Set the hyperlink
+                        this.eGui.setAttribute('style', "text-decoration:none; color:blue;");  // Optional styling
+                        this.eGui.setAttribute('target', "_blank");  // Open in a new tab
+                      }
+                      getGui() {
+                        return this.eGui;
+                      }
+                    }
+                """)
+            )
+
+            # Remove column virtualization for auto-sizing
+            other_options = {'suppressColumnVirtualisation': True}
+            gb.configure_grid_options(**other_options)
+
+            # Display the table using AgGrid
+            grid_options = gb.build()
+            grid_options["defaultColDef"] = {
+                "autoSizeAllColumns": True,  # Automatically size columns to fit content
+            }
+            AgGrid(ranked_universities,
+                   update_mode=GridUpdateMode.NO_UPDATE,
+                   gridOptions=grid_options,
+                   # columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS,
+                   allow_unsafe_jscode=True,
+                   height=650,
+                   theme="streamlit")
+
+            # st.dataframe(ranked_universities[columns_to_show], hide_index=True)  # Display the selected columns
             st.write("\\* Probabilité d'admission ajustée")
 
             # st.write("Data for Map Plotting:")
@@ -483,11 +572,11 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
                               - Niveau du lycée : {college_level} → Poids : {college_level_weights[college_level]:.2f}  
                               - Niveau de la classe : {class_level} → Poids : {class_level_weights[class_level]:.2f}  
                               - **Multiplier total** : {student_multiplier:.2f}
-                              
+
                             - Les probabilités d'admission sont ajustées proportionnellement à votre profil :  
                               - Proba ajustée = f(Proba d'admission, Student Multiplier)
                               - Les augmentations sont limitées à +0.1 et les diminutions à -0.1.
-                              
+
                             **Formule SSS :**  
                             SSS = Adjusted Proba × {apw_weight:.2f} + Normalized Access Rate × {access_rate_weight:.2f} + Normalized Quality Rate × {quality_rate_weight:.2f}
 
