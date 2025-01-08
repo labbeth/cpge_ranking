@@ -410,9 +410,9 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
 
     with col3:
         if st.button("Audacieux"):
-            st.session_state.apw_weight = 0.05
+            st.session_state.apw_weight = 0.1
             st.session_state.access_rate_weight = 0.15
-            st.session_state.quality_rate_weight = 0.8
+            st.session_state.quality_rate_weight = 0.75
             st.query_params = {"force": str(uuid.uuid4())}
 
     apw_weight = st.slider("Acceptance Probability Weight : Probabilité d'admission selon sa moyenne générale",
