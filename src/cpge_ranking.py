@@ -575,7 +575,7 @@ Comparez les établissements, estimez vos chances d’admission et optimisez vot
 
                             - Les probabilités d'admission sont ajustées proportionnellement à votre profil :  
                               - Proba ajustée = f(Proba d'admission, Student Multiplier)
-                              - Les augmentations sont limitées à +0.1 et les diminutions à -0.1.
+                              - Les augmentations sont limitées à +0.15 et les diminutions à -0.15.
 
                             **Formule SSS :**  
                             SSS = Adjusted Proba × {apw_weight:.2f} + Normalized Access Rate × {access_rate_weight:.2f} + Normalized Quality Rate × {quality_rate_weight:.2f}
