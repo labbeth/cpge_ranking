@@ -154,8 +154,8 @@ def rank_universities(df, notes, csv_file, top_n, univ_type, subject_weights, ss
     # Adjust "Proba d'admission" based on the formula
     def adjust_probability(proba, multiplier, m_min, m_max):
         # Scaling factors
-        a = (proba + 0.1) / proba
-        b = (proba - 0.1) / proba
+        a = (proba + 0.15) / proba
+        b = (proba - 0.15) / proba
 
         # Calculate f(m)
         if multiplier >= 1:
