@@ -33,7 +33,7 @@ This application helps students aiming to join a CPGE program in France to:
 - **Preset Profiles**: Quickly set “Réaliste,” “Équilibré,” or “Ambitieux” weighting schemes with a single click.
 - **Detailed Ranking**: Filter, rank, and preview CPGE programs (MPSI, PCSI, ECG, etc.) based on your inputs.
 - **Interactive Map**: View top CPGE institutions on a geographical map, with hover information on each school’s metrics.
-- **Automatic Score Calculation**: Combines your own notes, acceptance probabilities, and institution data into one composite *SSS* (Scoring Support System).
+- **Automatic Score Calculation**: Combines your own notes, acceptance probabilities, and institution data into one composite *SSS* (Student Specific Score).
 
 ---
 
