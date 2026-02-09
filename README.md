@@ -40,7 +40,7 @@ This application helps students aiming to join a CPGE program in France to:
 ## Demo
 
 A live version of the app is available here:
-- **Streamlit Community Cloud**: [**Demo Link**](https://streamlit.io/cloud) 
+- **Streamlit Community Cloud**: [**Demo Link**](https://cpgeranking-uvgw42cfuqune6nlvpdnwk.streamlit.app/)
 
 ---
 
